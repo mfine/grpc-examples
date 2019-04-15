@@ -1,0 +1,29 @@
+syntax = "proto3";
+
+package examples;
+
+option go_package = "main";
+
+// Client write message.
+message White {
+}
+
+// Client read message.
+message Red {
+}
+
+// Unary and Stream services.
+service ExamplesService {
+
+  // Unary write White, unary read Red.
+  rpc Unary(White) returns (Red) {}
+
+  // Unary write White, stream read Red.
+  rpc StreamRead(White) returns (stream Red) {}
+
+  // Stream write White, unary read Red.
+  rpc StreamWrite(stream White) returns (Red) {}
+
+  // Stream write White, stream read Red.
+  rpc StreamReadWrite(stream White) returns (stream Red) {}
+}
