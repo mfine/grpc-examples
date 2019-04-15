@@ -3,11 +3,20 @@
 
 #include "examples.grpc.pb.h"
 
+#define REUSE_CHANNEL
+
 int main() {
+#ifdef REUSE_CHANNEL
+  std::cout << "reusing channel" << std::endl;
   auto chan(grpc::CreateChannel("localhost:6000", grpc::InsecureChannelCredentials()));
   auto stub(examples::ExamplesService::NewStub(chan));
-
   while (true) {
+#else
+  while (true) {
+    auto chan(grpc::CreateChannel("localhost:6000", grpc::InsecureChannelCredentials()));
+    auto stub(examples::ExamplesService::NewStub(chan));
+#endif
+
     grpc::ClientContext context;
     examples::White white;
     examples::Red red;
