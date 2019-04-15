@@ -27,7 +27,7 @@ int main() {
     bool ok;
 
     tag_in++;
-    auto data(stub->AsyncStreamRead(&context, white, &cq, &tag_in));
+    auto data(stub->AsyncStreamReadWrite(&context, &cq, &tag_in));
 
     ok = false;
     if (!cq.Next(reinterpret_cast<void **>(&tag_out), &ok)) {
@@ -35,48 +35,10 @@ int main() {
       assert(false);
     }
 
+    bool timeout(false);
+
     if (ok) {
       assert(tag_in == *tag_out);
-      while (true) {
-        tag_in++;
-        data->Read(&red, &tag_in);
-
-        ok = false;
-        if (!cq.Next(reinterpret_cast<void **>(&tag_out), &ok)) {
-          std::cout << "BAD NEXT 2" << std::endl;
-          assert(false);
-        }
-
-        if (!ok) {
-          std::cout << "BAD READ" << std::endl;
-          break;
-        }
-
-        assert(tag_in == *tag_out);
-        std::cout << "READ" << std::endl;
-      }
-    }
-
-    grpc::Status status;
-
-    tag_in++;
-    data->Finish(&status, &tag_in);
-
-    ok = false;
-    if (!cq.Next(reinterpret_cast<void **>(&tag_out), &ok)) {
-      std::cout << "BAD NEXT 3" << std::endl;
-      assert(false);
-    }
-
-    if (!ok) {
-      std::cout << "BAD STATUS" << std::endl;
-      assert(false);
-    }
-
-    if (status.ok()) {
-      std::cout << "OK" << std::endl;
-    } else {
-      std::cout << "NOT OK " << std::to_string(status.error_code()) << std::endl;
     }
 
     std::cout << "SLEEP" << std::endl;

@@ -23,7 +23,8 @@ CLIENTS = \
 	sync_stream_write_client \
 	sync_stream_read_write_client \
 	async_stream_read_client \
-	async_deadline_stream_read_client
+	async_deadline_stream_read_client \
+	async_deadline_stream_read_write_client
 
 %.proto: ../%.proto
 	cp $< .

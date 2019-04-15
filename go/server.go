@@ -5,6 +5,7 @@ import (
 	"io"
 	"log"
 	"net"
+	"os"
 	"time"
 
 	"google.golang.org/grpc"
@@ -25,9 +26,11 @@ func (s *service) StreamRead(white *White, stream ExamplesService_StreamReadServ
 	for {
 		select {
 		case <-ticker.C:
-			red := &Red{}
-			if err = stream.Send(red); err != nil {
-				return
+			if _, err = os.Stat("/tmp/STREAM_READ"); os.IsNotExist(err) {
+				red := &Red{}
+				if err = stream.Send(red); err != nil {
+					return
+				}
 			}
 		}
 	}
