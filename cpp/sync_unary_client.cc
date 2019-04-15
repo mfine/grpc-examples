@@ -4,10 +4,10 @@
 #include "examples.grpc.pb.h"
 
 int main() {
-  while (true) {
-    auto chan(grpc::CreateChannel("localhost:6000", grpc::InsecureChannelCredentials()));
-    auto stub(examples::ExamplesService::NewStub(chan));
+  auto chan(grpc::CreateChannel("localhost:6000", grpc::InsecureChannelCredentials()));
+  auto stub(examples::ExamplesService::NewStub(chan));
 
+  while (true) {
     grpc::ClientContext context;
     examples::White white;
     examples::Red red;
