@@ -12,9 +12,9 @@ int main() {
   auto stub(examples::ExamplesService::NewStub(chan));
   while (true) {
 #else
-    while (true) {
-      auto chan(grpc::CreateChannel("localhost:6000", grpc::InsecureChannelCredentials()));
-      auto stub(examples::ExamplesService::NewStub(chan));
+  while (true) {
+    auto chan(grpc::CreateChannel("localhost:6000", grpc::InsecureChannelCredentials()));
+    auto stub(examples::ExamplesService::NewStub(chan));
 #endif
 
     grpc::ClientContext context;

@@ -17,7 +17,7 @@ PROTOC = protoc
 GRPC_CPP_PLUGIN = grpc_cpp_plugin
 GRPC_CPP_PLUGIN_PATH ?= `which $(GRPC_CPP_PLUGIN)`
 
-CLIENTS = sync_unary_client sync_stream_read_client sync_stream_write_client sync_stream_read_write_client
+CLIENTS = sync_unary_client sync_stream_read_client sync_stream_write_client sync_stream_read_write_client async_stream_read_client
 
 %.proto: ../%.proto
 	cp $< .
